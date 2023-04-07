@@ -8,40 +8,24 @@ namespace NeuralNetwork.Classes
 {
     public class Neuron
     {
-        private double[] weights;
-        private double bias;
+        public List<Dendrite> Dendrites { get; set; }
+        public double Bias { get; set; }
+        public double Delta { get; set; }
+        public double Value { get; set; }
 
-        public Neuron(int inputCount)
+        public int DendriteCount
         {
-            weights = new double[inputCount];
-            RandomizeWeights();
-            bias = 0;
-        }
-
-        public double FeedForward(double[] inputs)
-        {
-            double sum = 0;
-            for (int i = 0; i < inputs.Length; i++)
+            get
             {
-                sum += inputs[i] * weights[i];
+                return Dendrites.Count;
             }
-            sum += bias;
-            return Sigmoid(sum);
         }
 
-        private double Sigmoid(double x)
+        public Neuron()
         {
-            return 1 / (1 + Math.Exp(-x));
-        }
-
-        private void RandomizeWeights()
-        {
-            Random rand = new Random();
-            for (int i = 0; i < weights.Length; i++)
-            {
-                weights[i] = rand.NextDouble() * 2 - 1;
-            }
+            Random n = new Random(Environment.TickCount);
+            this.Bias = n.NextDouble();
+            this.Dendrites = new List<Dendrite>();
         }
     }
-
 }
